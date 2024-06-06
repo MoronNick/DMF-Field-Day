@@ -62,10 +62,9 @@ _Note: To highlight the scale-out fabric design, the topology used in this modul
 
 Leaf switches (filter & delivery) are not directly connected to each other. On the other hand, a spine switch (core) is a switch that is physically connected to every leaf switch, and core switches do not connect to each other.
 
-**Click Fabric to show a graphical summary of your fabric**
+Click **Fabric** to show a graphical summary of your fabric
 
-<!-- need screenshot of fabric -->
-![22](media/22.png)
+![da_fabric](media/da_fabric.png)
 
 ## Assign Filter Role to Interfaces
 Now that we added the switches to the DMF controller, we now need to configure the interfaces on those switches and assign them a role.
