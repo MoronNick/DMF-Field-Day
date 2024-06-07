@@ -144,7 +144,7 @@ Navigate to the previously opened  **Wireshark** tab. You should see no addition
 # Creating a Policy
 At this point the interfaces have been configured with their proper roles. The next step is to configure a rule that will take the d traffic from the SPAN sessions and send it the tools. This is done under **Policies**.
 
-## 1st Policy 1
+## 1st Policy Part1
 As demonstrated in previous steps, the packets are not yet being sent to the tools. Lets configure our first policy to send the traffic to Wireshark.
 
 1. Click on **Monitoring > Policies**
@@ -154,18 +154,18 @@ As demonstrated in previous steps, the packets are not yet being sent to the too
 ![policy1_1](media/pol1_1.png)
 ![policy1_2](media/pol1_2.png)
 
-## 1st Policy 2
+## 1st Policy Part2
 We are only going to configure a single FILTER interface with this policy. The additional interfaces will be used in later labs.
 
 4. Select the **FILTER1** interface. Click **Add 1 Source**
    * *We will configure a second FILTER interface later in the lab*
 5. Under Desintation Tools Click **+ Add Port(s)**
-6. Select the **WIRESHARK** interface. Click **Add 2 interfaces**
+6. Select the **WIRESHARK** interface. Click **Add 1 interfaces**
 
 ![policy1_3](media/pol1_3.png)
 ![policy1_4](media/pol1_4.png)
 
-## 1st Policy 3
+## 1st Policy Part3
 
 7. Select **Match Traffic**. 
 8. Click **Configure A Rule**
@@ -207,7 +207,7 @@ Now the that **ICMP POLICY** has been created, lets verify that we are seeing tr
 ---
 # Create The Second Policy
 
-## 2nd Policy 1
+## 2nd Policy Part 1
 
 Goal: Add a second policy for one tool (Wireshark) to monitor TCP traffic in addition to the ICMP.
 
@@ -229,7 +229,7 @@ This policy is going to limit the TCP traffic collected to only include communic
 ![policy2_2](media/pol2_2.png)
 ![policy2_3](media/pol2_3.png)
 
-## Set Traffic Match
+## 2nd Policy Part 2
 **Creating the 2nd Policy (Continued)**
 
 6. Select **Match Traffic**. 
