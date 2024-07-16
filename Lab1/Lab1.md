@@ -1,8 +1,8 @@
-# DANZ Monitoring Fabric Lab
+# DANZ Monitoring Fabric(DMF) Lab
 ---
 # Introduction
 ## Introduction
-This Lab will assist you in the configuration and setup of a DMF Fabric, Policies and Service Node functionality.
+This Lab will assist you in the configuration and setup of a DMF Fabric, Policies, and Service Node functionality.
 
 ## Access the Lab
 
@@ -10,37 +10,49 @@ The interactive portions of this lab are highlighed in the image below. To view 
 
 ![topology](media/SN_Topology.png)
 
-- Controller Node
-  - Controller GUI (Interactive GUI) - This is where the majority of the Lab will be spent
-  - CLI Access - You can view the CLI configuration that is applied with the GUI
-- Client
-  - CLI Access - LINUX CLI used to generate traffic in the network
-  - Request from multiple OSes - Places traffic on the network emulating http requests from multiple sources and operating systems
-- Wireshark
-  - Realtime Capture - Displays a simple packet capture without full details
-  - Realitime Capture (verbose) - More detailed capture of packet details
-  - Packet Dump - full packet capture 
+- **Controller Node**
+  - **Controller GUI (Interactive GUI)** - This is where the majority of the Lab will be spent
+  - **CLI Access** - You can view the CLI configuration that is applied with the GUI
+- **Client**
+  - **CLI Access** - LINUX CLI used to generate traffic in the network
+  - **Request from multiple OSes** - Places traffic on the network emulating http requests from multiple sources and operating systems
+- **Wireshark**
+  - **Realtime Capture** - Displays a simple packet capture without full details
+  - **Realitime Capture** (verbose) - More detailed capture of packet details
+  - **Packet Dump** - full packet capture 
 
-Selecting any of those options will open a new tab for access to that devices interface
+Selecting any of those options will open a new tab for access to the selected User Interface
 
-### Login Info
+## Controller Login
 Select the Controller GUI
 
 ![login](media/cntrl_login.png)
 
-Username: admin 
-Password: sn_labs@2024
+Username: **admin**
+
+Password: **sn_labs@2024**
 
 ---
 # Build the DMF Fabric
+
+## Device Roles
+Although not a requirement in a DMF design, there are typically 3 roles that network devices have. A single device could accomplish all 3 roles in small enough deployment.
+
+1. **Filter Switch** - This switch(es) will be the connection point from the production network and recieves the monitored traffc 
+2. **Delivery Switch** - This switch(es) delivers the traffic that has been passed through DMF to the destination tools.
+2. **Core Switch** - In large deployments these devices will aggregate connection from multiple Filter/Delivery switches.
+
 ## Add The Filter Switch
- We are going to start to configure the switches with their repective roles in the topology. All the configuration will be done on the controller.
+The topology that was shown above has been physically connected. We are now going to configure the switches with their respective roles in the topology. All of this configuration will be done on the **DMF Controller.**
 
 After logging in to the controller.
 
 1. **Navigate to Fabric > Switches**
 2. Click **+** to provision a switch**
-3. Configure the Filter-Switch using **MAC address 00:00:00:00:00:0A** & **Save**
+3. Configure the Filter Switch 
+   - Name: **Filter-Switch**
+   - MAC Address: **00:00:00:00:00:0A** 
+   - Leave the rest default and select **Save**
 
 ![fabric_1](media/fab_1.png)![fabric_2](media/fab_2.png)
 
@@ -69,7 +81,7 @@ Click **Fabric** to show a graphical summary of your fabric
 ## Assign Filter Role to Interfaces
 Now that we added the switches to the DMF controller, we now need to configure the interfaces on those switches and assign them a role.
 
-**In this lab’s topology ethernet2 and ethernet3 of the Filter-Switch are SPAN ports connected to the Production network**
+_In this lab’s topology ethernet2 and ethernet3 of the Filter-Switch are SPAN ports connected to the Production network_
 
 ## FILTER1 Interface
 1.  Navigate to  **Monitoring > Interfaces**
@@ -79,7 +91,7 @@ Now that we added the switches to the DMF controller, we now need to configure t
     * Interface: **ethernet2**
     * Click **Next**
 4.  Interface Configuration
-    * Select **Filter** readial button
+    * Select **Filter** radial button
     * Interface Name: **FILTER1**
     * Click **Save** to apply the configuration
 
@@ -121,9 +133,9 @@ Verify the status of all interfaces are showing **Up**. Select the Reresh button
 ![Add Int 5](media/int_verif.png)
 
 ## Client Tools
-Now that we have fabric configured in the Controller. Let's take review the tools and connectivity. 
+Now that we have fabric configured in the Controller. Let's review the tools and connectivity. 
 
-Select Wireshark on the interactive topology and then select **Realtime Capture**
+Return to the **interactive topology** and select **Wireshark**. Select **Realtime Capture**
 
 ![Wireshark_Access](media/nav_wireshark_rc.png)
 
@@ -131,21 +143,25 @@ Now select Client on the interactive topology and then select **CLI Access**
 
 ![Client CLI](media/nav_client_cli.png)
 
-You will be presented with linux CLI in a new tab in your browser.
+You will be presented with Linux terminal in a new tab in your browser.
 
 From the Client CLI run the following command **ping -c 2 10.0.0.2**
 
 ![Ping5](media/cli_ping_2.png)
 
-Navigate to the previously opened  **Wireshark** tab. You should see no additional data in that window as we have yet to configure the traffic to be delivered. This will be done in the next step.
+Navigate to the previously opened  **Wireshark** tab. You should see **NO** additional data in that window as we have yet to configure the traffic to be delivered. This will be done in the next step.
 
 ![empty_wireshark](media/empty_wireshark.png)
 
 # Creating a Policy
-At this point the interfaces have been configured with their proper roles. The next step is to configure a rule that will take the d traffic from the SPAN sessions and send it the tools. This is done under **Policies**.
+At this point the interfaces have been configured with their proper roles. The next step is to configure a rule that will take the traffic from the SPAN sessions and send it on to the tools. This is done under **Policies**.
 
 ## 1st Policy Part1
 As demonstrated in previous steps, the packets are not yet being sent to the tools. Lets configure our first policy to send the traffic to Wireshark.
+
+This policy is going to limit the traffic delivered to only include ICMP traffic between 2 hosts. Setting source and/or destination traffic rules can greatly reduce the traffic arriving at your tools and can save resources and scale on those monitoring tools.
+
+Return to the **DMF Controller**
 
 1. Click on **Monitoring > Policies**
 2. Click on the **+ Create Policy** button
@@ -160,7 +176,7 @@ We are only going to configure a single FILTER interface with this policy. The a
 4. Select the **FILTER1** interface. Click **Add 1 Source**
    * *We will configure a second FILTER interface later in the lab*
 5. Under Desintation Tools Click **+ Add Port(s)**
-6. Select the **WIRESHARK** interface. Click **Add 1 interfaces**
+6. Select the **WIRESHARK** interface. Click **Add 1 interface**
 
 ![policy1_3](media/pol1_3.png)
 ![policy1_4](media/pol1_4.png)
@@ -190,7 +206,7 @@ Verify the policy is showing as **active** and **installed** by hovering over **
 ## Test 1st Policy
 Now the that **ICMP POLICY** has been created, lets verify that we are seeing traffic. 
 
-*Note: If you kept the windows for both Wireshark and the Client CLI open, you can skip to **#3** 
+_Note: If you kept the windows for both Wireshark and the Client CLI open, you can skip to **#3**_ 
 
 1. Return to the Interactive Lab topology
 2. Click on the **Wireshark** icon and select **Realtime Capure**
@@ -209,9 +225,9 @@ Now the that **ICMP POLICY** has been created, lets verify that we are seeing tr
 
 ## 2nd Policy Part 1
 
-Goal: Add a second policy for one tool (Wireshark) to monitor TCP traffic in addition to the ICMP.
+Goal: Add a second policy for one tool **(Wireshark)** to monitor TCP traffic in addition to the ICMP.
 
-This policy is going to limit the TCP traffic collected to only include communications between 2 hosts. Setting source and/or destination traffic rules can greatly reduce the traffic arriving at your tools and can save resources and scale on those monitoring tools.
+This policy is going to capture all TCP traffic collected. 
 
 1. Click on the **+ Create Policy** button
 2. Create Policy
@@ -290,6 +306,8 @@ After configuring the Service Node verify that the DMF controller is able to com
 # Deduplication
 
 ## Create Deduplication Service
+Deduplication provides the ability to detect a duplicates of a packet. Allowing only the first instance of the packet and dropping other iterations of the same packet. 
+
 1. Add Managed Service
    * Select the **Managed Services** tab
    * Click the **+** to create a new service
@@ -314,7 +332,7 @@ After configuring the Service Node verify that the DMF controller is able to com
 ## Generate Duplicate Traffic
 Now that we have configured the **Deduplication Service**, we still need to apply it to a policy.
 
-First, lets update our policy to generate some duplicate traffic.
+First, lets update an existing policy. In our previous policies we only included a single FILTER interface. We are going to add the second interface to generate duplicate traffic.
 
 1. Navigate to **Monitoring > Policies**
 2. Edit **ICMP-POLICY**
