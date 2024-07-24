@@ -76,9 +76,9 @@ Leaf switches (filter & delivery) are not directly connected to each other. On t
 
 Click **Fabric** to show a graphical summary of your fabric
 
-You can review individual information by selecting the **Square** icon the represents a switch. 
-
 _Note: you can select the slider on the left under **Switch Labels** over to **Show** to display the labels as shown in the image below._
+
+Select any of the 3 switches displayed in the **Fabric Topology** to view additional information of each switch.
 
 ![da_fabric](media/da_fabric.png)
 
