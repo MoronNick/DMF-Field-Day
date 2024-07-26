@@ -1,0 +1,6 @@
+This lab guide covers a combination of overview and servicenode to a more fluid continuety when doing a Workshop vs having 2 different labs. 
+
+To get to the starting state of this lab guide, you must start the SERVICE Node lab on labs.arista.com
+
+Go into the controller and delete the filter/core/delivery switches from the controller. 
+
