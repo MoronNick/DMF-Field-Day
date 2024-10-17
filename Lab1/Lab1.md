@@ -339,7 +339,7 @@ Deduplication provides the ability to detect a duplicates of a packet. Allowing 
 ## Generate Duplicate Traffic
 Now that we have configured the **Deduplication Service**, we still need to apply it to a policy.
 
-First, lets update an existing policy. In our previous policies we only included a single FILTER interface. We are going to add the second interface to generate duplicate traffic.
+First, lets update an existing policy. In our previous policies we only included a single FILTER interface. We are going to add the second interface that will provide a duplicate copy of the traffic that traversing both of our switches.
 
 1. Navigate to **Monitoring > Policies**
 2. Edit **ICMP-POLICY**
@@ -477,10 +477,11 @@ Access***
 ![Slice](media/pol_test_slice.png)
 
 ---
+<!-- Stuck here until wireshark config gets updated -->
 # Pattern Matching
 
 ## Pattern Matching
-DMF service node pattern matching enables payload content based filtering
+DMF service node pattern matching enables payload content based filtering which can can configure with REGEX to match.
 
 ## Test Pre Pattern Match
 
@@ -561,5 +562,5 @@ Close the existing **Wireshark Packet Dump** if still open.
 ![Slice](media/pol_test_match.png)
 
 
-Note: To view the controller configuration, login to the CLI with admin/sn_labs@2024 and run the command show running-config from the CLI.
+Note: To view the controller configuration, login to the CLI with admin/anrn_labs@2024 and run the command show running-config from the CLI.
 
