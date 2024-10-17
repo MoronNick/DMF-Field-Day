@@ -83,6 +83,70 @@ Select any of the 3 switches displayed in the **Fabric Topology** to view additi
 
 ![da_fabric](media/da_fabric.png)
 
+## Add Service Node
+The Service Node provides the advanced packet analysis features to the DMF fabric. Before we are able demonstrate those advanced functions we need to add the Service Node to the DMF fabric.
+
+1. Navigate to **Fabric** > **Connected Devices**
+2. Annotate the **Chassis ID** of **serivce-node-850**
+3. Navigate to **Monitoring** > **Managed Services**
+4. Under **Devices** select the **+** to Add device
+5. Fill in the annotated information from step 1
+   - Name: **Service-Node**
+   - MAC Address: **42:01:0a:0a:0c:28**
+   - Select **Submit**
+
+![add_sn_1](media/add_sn_1.png)
+![add_sn_2](media/add_sn_2.png)
+
+## Verify Service Node 
+
+After configuring the Service Node verify that the DMF controller is able to communicate with the Service Node
+
+1. If the IP Address, Serial Number, Int Count, Interfaces are blank select the **Refresh Button**
+2. If the DMF controller is able to communicate with the Serivce Node that information should populate.
+
+![addsn_3](media/add_sn_3.png)
+
+## Add Recorder Node 
+Go to Monitoring > Packet Recorders
+
+![alt text](media/nav_pr.png)
+
+Under **Devices** Select the **+**
+
+![alt text](media/add_pr1.png)
+
+Fill in the below information:
+
+Name: **packet-recorder814** \
+MAC Address: **42:01:0a:0a:0c:28** \
+Packet Age: **300 Mins**
+
+Select ![alt text](media/save.png)
+
+![alt text](media/add_pr2.png)
+
+Back on the Packet Recorders Page you may see a Red X under Connected. Hit Refresh until you see a Green Check mark under connected.
+
+![alt text](media/add_pr3.png)
+
+## Add Packet Recorder Interface
+Remaining on the Packet Recorders Menu.
+
+Under Interfaces select the ***+**
+
+![alt text](media/add_pr_int1.png)
+
+Fill in with a interface information
+
+Name: **Recorder-Interface** \
+Switch **(Delivery)** \
+Interface: **ethernet3**
+
+Select ![alt text](media/save.png)
+
+
+![alt text](media/add_pr_int2.png)
 ## Assign Filter Role to Interfaces
 Now that we added the switches to the DMF controller, we now need to configure the interfaces on those switches and assign them a role.
 
