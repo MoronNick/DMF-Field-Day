@@ -6,9 +6,9 @@ This Lab will assist you in the configuration and setup of a DMF Fabric, Policie
 
 ## Access the Lab
 
-The interactive portions of this lab are highlighed in the image below. To view the available options displayed click one of the 3 device. 
+The image displayed in conjunction with the lab guides is the interactive portions of this lab. The portions of the lab that are interactive are highlighed in the image below. To view the available options displayed click one of the 3 device. 
 
-![topology](media/SN_Topology.png)
+![Topology](media/All_in_one_Topology.png)
 
 - **Controller Node**
   - **Controller GUI (Interactive GUI)** - This is where the majority of the Lab will be spent
@@ -20,20 +20,21 @@ The interactive portions of this lab are highlighed in the image below. To view 
   - **Realtime Capture** - Displays a simple packet capture without full details
   - **Realitime Capture** (verbose) - More detailed capture of packet details
   - **Packet Dump** - full packet capture 
+- **Analytics Node** - Left clicking on the Analytics node icon will open a new tab to access the Analytics Node UI.
 
 Selecting any of those options will open a new tab for access to the selected User Interface
 
 ## Controller Login
 Select the Controller GUI
 
-![login](media/cntrl_login.png)
-
+<!--Need new login page -->
+![Login](media/cntrl_login.png)
 Username: **admin**
 
-Password: **sn_labs@2024**
+Password: **anrn_labs@2024**
 
 ---
-# Build the DMF Fabric
+# Building the DMF Fabric
 
 ## Device Roles
 Although not a requirement in a DMF design, there are typically 3 roles that network devices have. A single device could accomplish all 3 roles in small enough deployment.
@@ -62,17 +63,17 @@ After saving the configuration the switch should be displayed in a table. If the
 ![fabric_verify](media/fab_verification.png)
 
 ## Add Core and Delivery Switches
-**Under Fabric > Switches, repeat the same steps as the filter switch to add**
+**Under Fabric > Switches, repeat the same steps as the filter switch to add the core and delivery switches**
 1. **Core-Switch 00:00:00:00:00:0B**
 2. **Delivery-Switch 00:00:00:00:00:0C**
 
 ![fabric_4](media/fab_3.png)![fabric_5](media/fab_4.png)
 
-_Note: To highlight the scale-out fabric design, the topology used in this module depicts Filter Ports to be configured on the Filter Switch, Delivery Ports to be configured on the Delivery Switch. This is not a design requirement. A leaf switch of the fabric can be configured with a mix of filter & delivery ports_
+
 
 ## Review Fabric Topology 
 
-Leaf switches (filter & delivery) are not directly connected to each other. On the other hand, a spine switch (core) is a switch that is physically connected to every leaf switch, and core switches do not connect to each other.
+Leaf switches (filter & delivery) are not directly connected to each other. On the other hand, a spine switch (core) is a switch that is physically connected to every leaf switch, and if there were multiple core switches, they would not connect to each other.
 
 Click **Fabric** to show a graphical summary of your fabric
 
@@ -85,7 +86,7 @@ Select any of the 3 switches displayed in the **Fabric Topology** to view additi
 ## Assign Filter Role to Interfaces
 Now that we added the switches to the DMF controller, we now need to configure the interfaces on those switches and assign them a role.
 
-_In this lab’s topology ethernet2 and ethernet3 of the Filter-Switch are SPAN ports connected to the Production network_
+_In this lab’s topology ethernet2 and ethernet3 of the Filter-Switch are destination SPAN ports connected to the Production network_
 
 ## FILTER1 Interface
 1.  Navigate to  **Monitoring > Interfaces**
@@ -115,6 +116,7 @@ _In this lab’s topology ethernet2 and ethernet3 of the Filter-Switch are SPAN 
 ![FILTER2](media/f2_int_1.png)
 ![FILTER2](media/f2_int_2.png)
 
+_Note: To highlight the scale-out fabric design, the topology used in this module depicts Filter Ports to be configured on the Filter Switch, Delivery Ports to be configured on the Delivery Switch. This is not a design requirement. A leaf switch of the fabric can be configured with a mix of filter & delivery ports_
 ## Delivery Interface
 
 Ethernet2 on the Delivery-Switch is physically connected to a Wireshark tool, 
@@ -217,8 +219,9 @@ _Note: If you kept the windows for both Wireshark and the Client CLI open, you c
 3. Click on the **Client** icon and select **CLI**
    * Run **ping -c 2 10.0.0.2**
 4. Return to the Wireshark **Realtime Capture**
-
+<!-- New Policy test 1 page --->
 ![pol_test_1](media/pol_test_1.png)
+
 ![pol_test_2](media/pol_test_2.png)
 ![pol_test_3](media/pol_test_icmp.png)
 
