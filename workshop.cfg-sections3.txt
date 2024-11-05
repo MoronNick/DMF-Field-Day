@@ -1,0 +1,104 @@
+dmf-controller-850# sh run                                                                                                                                                 
+!                                                                                                                                                                          
+! DANZ Monitoring Fabric 8.5.0 (dmf-8.5.0 #33)                                                                                                                             
+! Current Time: 2024-11-04 20:24:34 UTC                                                                                                                                    
+!                                                                                                                                                                          
+version 1.0                                                                                                                                                                
+                                                                                                                                                                           
+! ntp                                                                                                                                                                      
+ntp server 0.bigswitch.pool.ntp.org                                                                                                                                        
+ntp server 1.bigswitch.pool.ntp.org                                                                                                                                        
+ntp server 2.bigswitch.pool.ntp.org                                                                                                                                        
+ntp server 3.bigswitch.pool.ntp.org                                                                                                                                        
+                                                                                                                                                                           
+! local                                                                                                                                                                    
+local node                                                                                                                                                                 
+  hostname dmf-controller-850                                                                                                                                              
+  interface management                                                                                                                                                     
+    !                                                                                                                                                                      
+    ipv4                                                                                                                                                                   
+      ip 10.10.12.20/24                                                                                                                                                    
+      method manual                                                                                                                                                        
+    !                                                                                                                                                                      
+    ipv6                                                                                                                                                                   
+      method manual                                                                                                                                                        
+                                                                                                                                                                           
+! deployment-mode                                                                                                                                                          
+deployment-mode auto-discovery                                                                                                                                             
+                                                                                                                                                                           
+! user                                                                                                                                                                     
+user admin                                                                                                                                                                 
+  full-name 'Default admin'                                                                                                                                                
+  hashed-password method=PBKDF2WithHmacSHA512,salt=BLEvoyRpgp2stbluJkphbA,rounds=50000,ph=true,v6VWgVk1g8gFT0reHXjzPPp3cO960gDKiZWLbCpk6WLa6odJbvfjO1b-Zu9aglX1XBck6H3hEU0K
+C2UHv62-Pw                                                                                                                                                                 
+                                                                                                                                                                           
+! group                                                                                                                                                                    
+group admin                                                                                                                                                                
+  associate user admin                                                                                                                                                     
+                                                                                                                                                                           
+group read-only                                                                                                                                                            
+                                                                                                                                                                           
+! aaa                                                                                                                                                                      
+aaa accounting exec default start-stop local                                                                                                                               
+                                                                                                                                                                           
+! controller                                                                                                                                                               
+controller                                                                                                                                                                 
+  cluster-name dmf-cluster                                                                                                                                                 
+  access-control                                                                                                                                                           
+    !                                                                                                                                                                      
+    access-list api                                                                                                                                                        
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+    !                                                                                                                                                                      
+    access-list gui                                                                                                                                                        
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+    !                                                                                                                                                                      
+    access-list ntp                                                                                                                                                        
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+    access-list snmp                                                                                                                                                       
+    !                                                                                                                                                                      
+    access-list ssh                                                                                                                                                        
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+    !                                                                                                                                                                      
+    access-list sync                                                                                                                                                       
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+    !                                                                                                                                                                      
+    access-list vce-api                                                                                                                                                    
+      1 permit from ::/0                                                                                                                                                   
+      2 permit from 0.0.0.0/0                                                                                                                                              
+                                                                                                                                                                           
+! recorder-node                                                                                                                                                            
+recorder-node device Recorder-Node                                                                                                                                         
+  mac 42:01:0a:0a:0c:29                                                                                                                                                    
+  max-packet-age 300                                                                                                                                                       
+                                                                                                                                                                           
+! service-node                                                                                                                                                             
+service-node Service-Node                                                                                                                                                  
+  mac 42:01:0a:0a:0c:28                                                                                                                                                    
+                                                                                                                                                                           
+! switch                                                                                                                                                                   
+switch Core-Switch                                                                                                                                                         
+  mac 00:00:00:00:00:0b                                                                                                                                                    
+                                                                                                                                                                           
+switch Delivery-Switch                                                                                                                                                     
+  mac 00:00:00:00:00:0c                                                                                                                                                    
+  !                                                                                                                                                                        
+  interface ethernet2                                                                                                                                                      
+    role delivery interface-name WIRESHARK                                                                                                                                 
+                                                                                                                                                                           
+switch Filter-Switch                                                                                                                                                       
+  mac 00:00:00:00:00:0a                                                                                                                                                    
+  !                                                                                                                                                                        
+  interface ethernet2                                                                                                                                                      
+    role filter interface-name FILTER1                                                                                                                                     
+  !                                                                                                                                                                        
+  interface ethernet3                                                                                                                                                      
+    role filter interface-name FILTER2                                                                                                                                     
+                                                                                                                                                                           
+! recorder-fabric                                                                                                                                                          
+recorder-fabric interface Recorder-Interface                                                                                                                               
+  recorder-interface switch Delivery-Switch ethernet3 
