@@ -1,0 +1,62 @@
+! recorder-node                                                                                                                                                                               
+recorder-node device Recorder-Node                                                                                                                                                            
+  mac 42:01:0a:0a:0c:29                                                                                                                                                                       
+  max-packet-age 300                                                                                                                                                                          
+                                                                                                                                                                                              
+! service-node                                                                                                                                                                                
+service-node Service-Node                                                                                                                                                                     
+  mac 42:01:0a:0a:0c:28                                                                                                                                                                       
+                                                                                                                                                                                              
+! switch                                                                                                                                                                                      
+switch Core-Switch                                                                                                                                                                            
+  ip-address auto 10.10.12.50                                                                                                                                                                 
+  mac 00:00:00:00:00:0b                                                                                                                                                                       
+                                                                                                                                                                                              
+switch Delivery-Switch                                                                                                                                                                        
+  ip-address auto 10.10.12.51                                                                                                                                                                 
+  mac 00:00:00:00:00:0c                                                                                                                                                                       
+  !                                                                                                                                                                                           
+  interface ethernet2                                                                                                                                                                         
+    role delivery interface-name WIRESHARK                                                                                                                                                    
+                                                                                                                                                                                              
+switch Filter-Switch                                                                                                                                                                          
+  ip-address auto 10.10.12.52                                                                                                                                                                 
+  mac 00:00:00:00:00:0a                                                                                                                                                                       
+  !                                                                                                                                                                                           
+  interface ethernet2                                                                                                                                                                         
+    role filter interface-name FILTER1                                                                                                                                                        
+  !                                                                                                                                                                                           
+  interface ethernet3                                                                                                                                                                         
+    role filter interface-name FILTER2                                                                                                                                                        
+                                                                                                                                                                                              
+! ipam                                                                                                                                                                                        
+ipam switch                                                                                                                                                                                   
+  gateway 10.10.12.30                                                                                                                                                                         
+  ip-range 10.10.12.50 10.10.12.55                                                                                                                                                            
+  subnet-mask-length 24                                                                                                                                                                       
+  allocate                                                                                                                                                                                    
+                                                                                                                                                                                              
+! analytics                                                                                                                                                                                   
+analytics                                                                                                                                                                                     
+  analytics-server address 10.10.12.42                                                                                                                                                        
+                                                                                                                                                                                              
+! sflow                                                                                                                                                                                       
+sflow default                                                                                                                                                                                 
+  collector 10.10.12.42                                                                                                                                                                       
+                                                                                                                                                                                              
+! recorder-fabric                                                                                                                                                                             
+recorder-fabric interface Recorder-Interface                                                                                                                                                  
+  recorder-interface switch Delivery-Switch ethernet3                                                                                                                                         
+                                                                                                                                                                                              
+! policy                                                                                                                                                                                      
+policy ICMP-POLICY                                                                                                                                                                            
+  action forward                                                                                                                                                                              
+  delivery-interface WIRESHARK                                                                                                                                                                
+  filter-interface FILTER1                                                                                                                                                                    
+  1 match icmp range-src-ip 10.0.0.1 10.0.0.2                                                                                                                                                 
+                                                                                                                                                                                              
+policy TCP-POLICY                                                                                                                                                                             
+  action forward                                                                                                                                                                              
+  delivery-interface WIRESHARK                                                                                                                                                                
+  filter-interface FILTER1                                                                                                                                                                    
+  1 match tcp 
